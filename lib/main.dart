@@ -1,16 +1,27 @@
-import './widgets/new_transaction.dart';
 import 'package:flutter/material.dart';
 import './models/trasaction.dart';
+import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 
 void main(){
   runApp(MyApp());
 }
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
+class MyApp extends StatelessWidget {
+@override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Asd',
+      home: MyHomePage(),
+    );
+  }
 }
-class _MyAppState extends State<MyApp> {
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePage();
+}
+class _MyHomePage extends State<MyHomePage> {
   final List<Transaction> _userTransactions=[
     Transaction(
       id:'t1',
@@ -25,7 +36,7 @@ class _MyAppState extends State<MyApp> {
       date:DateTime.now()
     ),
   ];
-  void _addNewTransaction(String txTitle,double txAmount){
+  void _addNewTransaction(String txTitle, double txAmount){
     final newTx = Transaction(
     title: txTitle,
     amount: txAmount,
@@ -38,30 +49,28 @@ class _MyAppState extends State<MyApp> {
   }
   //String title = 'titleInput';
       void _startAddNewTransaction(BuildContext ctx){
-        showBottomSheet(
+        showModalBottomSheet(
           context: ctx,
           builder:(_){
           return NewTransaction(_addNewTransaction);
         },);
   }
 
-    @override
+@override
   Widget build(BuildContext context) {
-        return MaterialApp(
-      debugShowCheckedModeBanner: false,
-        home:Scaffold(
-          appBar: AppBar( 
+        return Scaffold(
+          appBar: AppBar(
           backgroundColor: Colors.black87,
           title:Text('Notes Register'),
-            actions: [
-              IconButton(
-                icon:Icon(Icons.add_circle_outline_sharp),
-              onPressed:()=>
-                 _startAddNewTransaction(context),
-              ),
-            ],            
-        ),
-         body:SingleChildScrollView(
+          actions: [
+            IconButton(icon: Icon(Icons.add),
+            onPressed: () =>
+              _startAddNewTransaction(context),
+            
+            )
+          ],
+          ),
+        body:SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -69,24 +78,19 @@ class _MyAppState extends State<MyApp> {
                   width: double.infinity,
                   child: Card(
                     color: Colors.brown,
-                    child: Text('Chart',
-                    style: TextStyle(fontSize:15,
-                      fontWeight: FontWeight.bold),
+                    child: Text('Chart'),
+                      elevation: 9,
                       ),  
-                   elevation: 9,
-                  ),
-                ), 
+                   ), 
                TransactionList(_userTransactions),
               ],
             ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blueGrey,
-          child: Icon(Icons.add_circle_outline),
-          onPressed: ()=>
+          child: Icon(Icons.add),
+          onPressed: () =>
             _startAddNewTransaction(context),
-        ) ,
         ),
         );
   }
