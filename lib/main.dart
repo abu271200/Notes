@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
       debugShowCheckedModeBanner: false,
         home:Scaffold(
-         appBar: AppBar( 
+          appBar: AppBar( 
           backgroundColor: Colors.black87,
           title:Text('Notes Register'),
             actions: [
@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
               ),
             ],            
         ),
-          body:SingleChildScrollView(
+         body:SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -84,7 +84,8 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blueGrey,
           child: Icon(Icons.add_circle_outline),
-          onPressed: (){}
+          onPressed: ()=>
+            _startAddNewTransaction(context),
         ) ,
         ),
         );

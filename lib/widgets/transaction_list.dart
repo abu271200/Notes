@@ -53,9 +53,9 @@ class TransactionList extends StatelessWidget {
                       ],
                     ),
                   );
-        },
-        itemCount: transactions.length,            
-         ),
+        }, 
+       itemCount: transactions.length,          
+      ), 
        );
   }
 }
