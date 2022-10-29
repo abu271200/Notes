@@ -52,9 +52,14 @@ class _MyHomePage extends State<MyHomePage> {
         showModalBottomSheet(
           context: ctx,
           builder:(_){
-          return NewTransaction(_addNewTransaction);
-        },);
-  }
+          return GestureDetector(
+            onTap:() {},
+          child: NewTransaction(_addNewTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
+      }
+    );
+}
 
 @override
   Widget build(BuildContext context) {
@@ -66,8 +71,7 @@ class _MyHomePage extends State<MyHomePage> {
             IconButton(icon: Icon(Icons.add),
             onPressed: () =>
               _startAddNewTransaction(context),
-            
-            )
+            ),
           ],
           ),
         body:SingleChildScrollView(
@@ -94,4 +98,4 @@ class _MyHomePage extends State<MyHomePage> {
         ),
         );
   }
-  }
+}
