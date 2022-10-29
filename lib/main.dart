@@ -10,8 +10,11 @@ class MyApp extends StatelessWidget {
 @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme:ThemeData(
+        primarySwatch: Colors.blueGrey,
+        accentColor: Colors.lime),
       debugShowCheckedModeBanner: false,
-      title: 'Asd',
+      title: 'Personal Expansive',
       home: MyHomePage(),
     );
   }
@@ -66,7 +69,7 @@ class _MyHomePage extends State<MyHomePage> {
         return Scaffold(
           appBar: AppBar(
           backgroundColor: Colors.black87,
-          title:Text('Notes Register'),
+          title:Text('Personal Expensive'),
           actions: [
             IconButton(icon: Icon(Icons.add),
             onPressed: () =>
@@ -81,7 +84,7 @@ class _MyHomePage extends State<MyHomePage> {
                 Container(
                   width: double.infinity,
                   child: Card(
-                    color: Colors.brown,
+                    color: Colors.grey,
                     child: Text('Chart'),
                       elevation: 9,
                       ),  
