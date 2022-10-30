@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../models/trasaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -10,7 +9,22 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height:400,
-      child:ListView.builder(
+      child:transactions.isEmpty
+      ? Column( 
+          children:[
+          Text('There is no Transactions',
+          style: Theme.of(context).textTheme.headline6,
+          ),
+          SizedBox(
+            height: 13
+            ),
+          Container(
+            height: 350,
+            child: Image.asset('assets/images/waiting.png',fit: BoxFit.cover)
+            ),
+          ],
+        )
+        : ListView.builder(
         itemBuilder: (ctx, index){
          return Card(
                     child:Row(
@@ -26,24 +40,20 @@ class TransactionList extends StatelessWidget {
                           width: 2,),
                         ),
                         padding:EdgeInsets.all(8),
-                         child: Text(
+                        child: Text(
+                        style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
                           '\$${transactions[index].amount.toStringAsFixed(2)}',
-                        style:TextStyle(
-                          fontWeight:FontWeight.bold,
-                          fontSize: 15,
-                          color:Colors.lightBlueAccent[700],
                         ),
-                       ),
                        ),
                        Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                         Text(
                         transactions[index].title,
-                        style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                        ),
+                        style:Theme.of(context).textTheme.headline6,
+                       ),
                         Text(
                         DateFormat.yMMMd().format(transactions[index].date),
                         style:TextStyle(
