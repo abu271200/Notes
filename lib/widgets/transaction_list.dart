@@ -20,51 +20,42 @@ class TransactionList extends StatelessWidget {
             ),
           Container(
             height: 350,
-            child: Image.asset('assets/images/waiting.png',fit: BoxFit.cover)
+            child: Image.asset(
+              'assets/images/waiting.png',
+              fit: BoxFit.cover
+              ),
             ),
           ],
         )
         : ListView.builder(
         itemBuilder: (ctx, index){
          return Card(
-                    child:Row(
-                      children: [
-                       Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                          color: Theme.of(context).primaryColorDark,
-                          width: 2,),
-                        ),
-                        padding:EdgeInsets.all(8),
-                        child: Text(
-                        style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                          '\$${transactions[index].amount.toStringAsFixed(2)}',
-                        ),
-                       ),
-                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                        Text(
-                        transactions[index].title,
-                        style:Theme.of(context).textTheme.headline6,
-                       ),
-                        Text(
-                        DateFormat.yMMMd().format(transactions[index].date),
-                        style:TextStyle(
-                        color:Colors.grey),
-                        ) 
-                       ],
-                       )
-                      ],
-                    ),
-                  );
-        }, 
+          margin: EdgeInsets.all(8),
+          elevation: 6,
+           child: ListTile(
+            leading: CircleAvatar(
+              radius: 30,
+              child:Padding(padding: EdgeInsets.all(5),
+              child: FittedBox(
+              child: Text('\$${transactions[index].amount}'
+              ),
+             ),
+            ),
+           ),
+           title: Text( 
+            transactions[index].title,
+            style:Theme.of(context).textTheme.headline6
+            ),
+            subtitle:( Text(
+             DateFormat.yMMMd().format(transactions[index].date),
+             style:TextStyle(
+              fontSize: 15,
+             color:Colors.grey), 
+             )
+           ),
+           ),
+         );
+         }, 
        itemCount: transactions.length,          
       ), 
        );

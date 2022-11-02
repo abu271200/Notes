@@ -49,6 +49,14 @@ class _NewTransactionState extends State<NewTransaction> {
                       onSubmitted: (_) =>  submitData,
                       //onChanged: (val) => amountInput = val,
                       ),
+                      Row(
+                            children: [
+                              Text('No Date choosen'),
+                              TextButton(child: Text('Choose a Date'),
+                              onPressed: () {                          
+                              },)
+                            ],
+                          ),
                    TextButton(
                        child: Text('Add Transaction'),
                        onPressed: submitData,
