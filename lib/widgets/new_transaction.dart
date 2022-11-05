@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -10,57 +11,87 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime ?_selectedDate;
+    void _submitData(){
+    final enteredTitle = _titleController.text;
+    final enteredAmount = double.parse(_amountController.text);
 
-  final amountController = TextEditingController();
-
-  void submitData(){
-
-    final enteredTitle = titleController.text;
-    final enteredAmount = double.parse(amountController.text);
-
-
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
+   
     widget.addTx(
       enteredTitle,
       enteredAmount,
     );
     Navigator.of(context).pop();
   }
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+        //..  DateTime _selectedDate;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-                elevation: 10,
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                    TextField(
-                       decoration: InputDecoration(labelText:'Title'),
-                       controller: titleController,
-                       keyboardType: TextInputType.text,
-                       onSubmitted: (_) => submitData,
-                       ),
-                      TextField(
+      elevation: 10,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            TextField(
+              autocorrect: true,
+              decoration: InputDecoration(labelText: 'Title'),
+              controller: _titleController,
+              keyboardType: TextInputType.text,
+              onSubmitted: (_) => _submitData(),
+              //onChanged: (val) {
+              //titleInput = val;
+              //},
+            ),
+                  TextField(
                       decoration:InputDecoration(labelText:'Amount'),
-                      controller: amountController,
+                      controller: _amountController,
                       keyboardType: TextInputType.number,
-                      onSubmitted: (_) =>  submitData,
+                      onSubmitted: (_) =>  _submitData(),
                       //onChanged: (val) => amountInput = val,
                       ),
-                      Row(
-                            children: [
-                              Text('No Date choosen'),
-                              TextButton(child: Text('Choose a Date'),
-                              onPressed: () {                          
-                              },)
-                            ],
-                          ),
-                   TextButton(
-                       child: Text('Add Transaction'),
-                       onPressed: submitData,
-                      style: TextButton.styleFrom(primary: Colors.indigo),
+                      Container(
+                        height:70,
+                      child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    _selectedDate == null
+                                  ? 'No Date Chosen'
+                                  : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}'),
+                                ),
+                                TextButton(
+                                child: Text('Choose a Date'),
+                                onPressed: _presentDatePicker,
+                                ),
+                              ],
+                            ),
+                      ),
+                    TextButton(
+                      onPressed: _submitData,
+                    child: Text('Add Transaction'),
+                    style: TextButton.styleFrom(primary: Colors.indigo),
                       ),
                     ]
                   ),
