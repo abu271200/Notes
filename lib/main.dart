@@ -51,12 +51,12 @@ class _MyHomePage extends State<MyHomePage> {
       );
     }).toList();
   }
-  void _addNewTransaction(String txTitle, double txAmount){
+  void _addNewTransaction(String txTitle, double txAmount,DateTime chosenDate){
     final newTx = Transaction(
     title: txTitle,
     amount: txAmount,
     date: DateTime.now(),
-    id: DateTime.now().toString(),
+    id: DateTime.now().toString(), 
     );
     setState(() {
        _userTransactions.add(newTx);
@@ -75,6 +75,12 @@ class _MyHomePage extends State<MyHomePage> {
       }
     );
 }
+// this transaction for delete the string id;
+void _deleteTransaction(String id){
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
+    });
+  }
 
 @override
   Widget build(BuildContext context) {
@@ -94,7 +100,7 @@ class _MyHomePage extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Chart(_recentTransactions),
-               TransactionList(_userTransactions),
+               TransactionList(_userTransactions, _deleteTransaction),
               ],
             ),
         ),
