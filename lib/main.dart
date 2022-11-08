@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Personal Expansive',
       theme:ThemeData(
         primarySwatch: Colors.blueGrey,
-        accentColor: Colors.lime,
+        accentColor: Colors.purpleAccent,
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(headline6: TextStyle(fontFamily: 'OpenSans',fontWeight: FontWeight.bold,fontSize: 16)),
         appBarTheme: AppBarTheme(
@@ -88,8 +88,7 @@ void _deleteTransaction(String id){
 
 @override
   Widget build(BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(
+    final appBar =  AppBar(
           backgroundColor: Colors.indigo,
           title:Text('Personal Expensive'),
           actions: [
@@ -98,13 +97,25 @@ void _deleteTransaction(String id){
               _startAddNewTransaction(context),
             ),
           ],
-          ),
+          );
+        return Scaffold(
+          appBar: appBar,
         body:SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Chart(_recentTransactions),
-               TransactionList(_userTransactions, _deleteTransaction),
+                Container(height:
+                (MediaQuery.of(context).size.height - 
+                appBar.preferredSize.height - 
+                MediaQuery.of(context).padding.top) * 0.3,
+                child:Chart(_recentTransactions),
+                ),
+               Container(height:
+                (MediaQuery.of(context).size.height - 
+                appBar.preferredSize.height -
+                MediaQuery.of(context).padding.top) * 0.7,
+                child: TransactionList(_userTransactions, _deleteTransaction),
+                ),
               ],
             ),
         ),
