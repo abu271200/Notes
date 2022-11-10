@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './models/trasaction.dart';
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
 
 void main(){
+  //This is for system display mode only for porrtrait mode//
+  //SystemChrome.setPreferredOrientations([
+  //DeviceOrientation.portraitUp,
+  //DeviceOrientation.portraitDown
+  //]);
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -42,6 +48,7 @@ class _MyHomePage extends State<MyHomePage> {
    // Transaction(id: 't1', title: 'Loafer', amount: 25.6, date:DateTime.now(),),
     //Transaction(id: 't2', title: 'Belt', amount: 12.6, date:DateTime.now(),),
   ];
+   bool _showChart = false; 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx){
       return tx.date.isAfter(
@@ -88,6 +95,7 @@ void _deleteTransaction(String id){
 
 @override
   Widget build(BuildContext context) {
+    final islandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar =  AppBar(
           backgroundColor: Colors.indigo,
           title:Text('Personal Expensive'),
@@ -98,24 +106,47 @@ void _deleteTransaction(String id){
             ),
           ],
           );
+          final txListWidget = Container(
+            height:(MediaQuery.of(context).size.height - 
+                appBar.preferredSize.height -
+                MediaQuery.of(context).padding.top) * 0.7,
+               child: TransactionList(_userTransactions, _deleteTransaction),
+              );
         return Scaffold(
           appBar: appBar,
         body:SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(height:
-                (MediaQuery.of(context).size.height - 
+               // _islandscape ? an another format for add this we use if staement in list without curly braces.
+               if (islandscape) Row(
+                  mainAxisAlignment:MainAxisAlignment.center,
+                  children: [
+                    Text('Show Chart'),
+                    Switch(
+                      value: _showChart,
+                      onChanged:(val){
+                       setState(() {
+                         _showChart = val;
+                    });
+                    },),
+                    ],
+                ),
+                if (!islandscape) Container(
+                 height:(MediaQuery.of(context).size.height - 
                 appBar.preferredSize.height - 
                 MediaQuery.of(context).padding.top) * 0.3,
                 child:Chart(_recentTransactions),
                 ),
-               Container(height:
-                (MediaQuery.of(context).size.height - 
-                appBar.preferredSize.height -
-                MediaQuery.of(context).padding.top) * 0.7,
-                child: TransactionList(_userTransactions, _deleteTransaction),
-                ),
+                if (!islandscape) txListWidget,
+               if (islandscape) _showChart 
+                ? Container(
+                 height:(MediaQuery.of(context).size.height - 
+                appBar.preferredSize.height - 
+                MediaQuery.of(context).padding.top) * 0.6,
+                child:Chart(_recentTransactions),
+                )
+                :txListWidget,
               ],
             ),
         ),
