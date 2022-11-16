@@ -95,7 +95,8 @@ void _deleteTransaction(String id){
 
 @override
   Widget build(BuildContext context) {
-    final islandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final islandscape = mediaQuery.orientation == Orientation.landscape;
     final appBar =  AppBar(
           backgroundColor: Colors.indigo,
           title:Text('Personal Expensive'),
@@ -107,9 +108,9 @@ void _deleteTransaction(String id){
           ],
           );
           final txListWidget = Container(
-            height:(MediaQuery.of(context).size.height - 
+            height:(mediaQuery.size.height - 
                 appBar.preferredSize.height -
-                MediaQuery.of(context).padding.top) * 0.7,
+                mediaQuery.padding.top) * 0.7,
                child: TransactionList(_userTransactions, _deleteTransaction),
               );
         return Scaffold(
@@ -133,17 +134,17 @@ void _deleteTransaction(String id){
                     ],
                 ),
                 if (!islandscape) Container(
-                 height:(MediaQuery.of(context).size.height - 
+                 height:(mediaQuery.size.height - 
                 appBar.preferredSize.height - 
-                MediaQuery.of(context).padding.top) * 0.3,
+                mediaQuery.padding.top) * 0.3,
                 child:Chart(_recentTransactions),
                 ),
                 if (!islandscape) txListWidget,
                if (islandscape) _showChart 
                 ? Container(
-                 height:(MediaQuery.of(context).size.height - 
+                 height:(mediaQuery.size.height - 
                 appBar.preferredSize.height - 
-                MediaQuery.of(context).padding.top) * 0.6,
+                mediaQuery.padding.top) * 0.6,
                 child:Chart(_recentTransactions),
                 )
                 :txListWidget,
